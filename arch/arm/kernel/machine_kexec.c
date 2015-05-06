@@ -148,6 +148,11 @@ void machine_kexec(struct kimage *image)
 
 	if (kexec_reinit)
 		kexec_reinit();
+		
+			/* Run any final machine-specific shutdown code. */
+	         if (image->hardboot && kexec_hardboot_hook)
+	          kexec_hardboot_hook();
+	  #endif
 
 	soft_restart(reboot_code_buffer_phys);
 }
